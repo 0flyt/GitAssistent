@@ -12,9 +12,7 @@ public class AppRunner
     public void Run()
     {
         Screens.ShowWelcome();
-
-        var gitService = new GitService();
-        Console.WriteLine(gitService.RunGitCommand("branch"));
+        Screens.ShowCurrentBranch();
 
     }
 }
