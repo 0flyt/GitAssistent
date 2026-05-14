@@ -12,16 +12,30 @@ public class ConsoleWriter
 
             var cleanedMessage = new List<string>();
 
-            var modifiedFiles = new List<string>();
+            var stagedFiles = new List<string>();
+
+            var notStagedFiles = new List<string>();
+
+            var gitService = new GitService();
+            var shortMessage = gitService.RunGitCommand("status --short").Message.Split("\n");
+            foreach (var message in shortMessage)
+            {
+                if (message.Length == 0)
+                    continue;
+
+                if (message[0] == 'M')
+                    stagedFiles.Add(message.Substring(3));
+
+                if (message[1] == 'M')
+                    notStagedFiles.Add(message.Substring(3));
+
+            }
 
             foreach (var line in lines)
             {
                 if(!line.Contains('('))
                 {
                     cleanedMessage.Add(line);
-
-                    if (line.Contains("modified"))
-                        modifiedFiles.Add(line);
                 }
             }
 
@@ -40,15 +54,28 @@ public class ConsoleWriter
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(message.Split("'")[1] + "\n");
                     Console.ResetColor();
-                }    
+                }
+                //TODO: Add behid and ahead remote branch.
                 else if (message.Contains("Changes not staged for commit:"))
                 {
-                    Console.WriteLine("Not staged files:");
+                    Console.WriteLine("Not staged file(s):");
                     Console.ForegroundColor = ConsoleColor.Red;
-                    foreach (var modified in modifiedFiles)
+                    foreach (var modified in notStagedFiles)
                     {
                         Console.WriteLine(modified);
                     }
+                    Console.WriteLine();
+                    Console.ResetColor();
+                }
+                else if (message.Contains("Changes to be committed:"))
+                {
+                    Console.WriteLine("To be committed:");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    foreach (var modified in stagedFiles)
+                    {
+                        Console.WriteLine(modified);
+                    }
+                    Console.WriteLine();
                     Console.ResetColor();
                 }
             }
