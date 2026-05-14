@@ -1,8 +1,4 @@
-﻿using GitAssistant.Git;
-using GitAssistant.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using GitAssistant.UI;
 
 namespace GitAssistant.App;
 
@@ -13,6 +9,16 @@ public class AppRunner
     {
         Screens.ShowWelcome();
         Screens.ShowCurrentBranch();
+
+        while (true)
+        {
+           MenuService.ShowAndSelectOptions();
+        }
+
+
+
+            
+
 
     }
 }
