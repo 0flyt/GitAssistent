@@ -8,9 +8,13 @@ public class AppRunner
     public void Run()
     {
         Screens.ShowWelcome();
-        
         Screens.ShowCurrentBranch();
-        MenuService.ShowAndSelectOptions();
+
+        while (true)
+        {
+           MenuService.ShowAndSelectOptions();
+        }
+
 
 
             
