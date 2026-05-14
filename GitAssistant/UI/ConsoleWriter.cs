@@ -6,22 +6,35 @@ public class ConsoleWriter
 {
     public void WriteGitStatus(GitRepoResponseDTO dto)
     {
-        if (dto.Message.Contains("Your branch is up to date with"))
+        if (dto.Message.Contains("On branch"))
         {
-            var parts = dto.Message.Split("'");
-            var branchPart = parts[0].Split(" ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            var branchPartSansNewline = branchPart[2].Split("\n");
-            Console.WriteLine($"Branch: {branchPartSansNewline[0]}");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("Up to date with: " );
-            Console.ResetColor();
-            Console.WriteLine(parts[1]);
+            var lines = dto.Message.Split("\n");
 
-            //var rest = dto.Message.Replace(parts[0] + "'" + parts[1] + "'", "").Trim();
-            Console.WriteLine(String.Concat(parts[2..]).Trim('.'));
+            foreach (var line in lines)
+            {
+                if(!line.Contains('('))
+                {
+                    Console.WriteLine(line);
+                }
+            }
+
+            //var parts = dto.Message.Split("'");
+            //var branchPart = parts[0].Split(" ");
+            //var branchPartSansNewline = branchPart[2].Split("\n");
+            //Console.Write($"Branch: ");
+            //Console.ForegroundColor = ConsoleColor.Yellow;
+            //Console.WriteLine(branchPartSansNewline[0]);
+            //Console.ResetColor();
+            //Console.Write("Up to date with: " );
+            //Console.ForegroundColor = ConsoleColor.Green;
+            //Console.WriteLine(parts[1]);
+
+            //Console.ResetColor();
+            //Console.WriteLine(String.Concat(parts[2..]).Trim('.'));
         }
+        else
+        {
 
-        //Console.WriteLine(dto.Message);
+        }
     }
 }
