@@ -7,3 +7,4 @@ var gitService = new GitService();
 Console.WriteLine(gitService.RunGitCommand("status"));
 
 app.Run();  
+//
