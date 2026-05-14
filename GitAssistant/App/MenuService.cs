@@ -1,5 +1,6 @@
 ﻿using GitAssistant.Git;
 using GitAssistant.Models;
+using GitAssistant.UI;
 
 namespace GitAssistant.App;
 
@@ -8,10 +9,11 @@ public static class MenuService
     public static void ShowAndSelectOptions()
     {
         var gitService = new GitService();
+        var writer = new ConsoleWriter();
 
         var options = new List<MenuOption> ([
-            new MenuOption{ Id = "1", Title = "Show current branch", Action = () => Console.WriteLine(gitService.RunGitCommand("branch --show-current").Message)},
-            new MenuOption{ Id = "2", Title = "Show status", Action = () => Console.WriteLine(gitService.RunGitCommand("status").Message)},
+            new MenuOption{ Id = "1", Title = "Show current branch", Action = () => writer.WriteGitStatus(gitService.RunGitCommand("branch --show-current"))},
+            new MenuOption{ Id = "2", Title = "Show status", Action = () => writer.WriteGitStatus(gitService.RunGitCommand("status"))},
             new MenuOption{ Id = "0", Title = "Quit", Action = () => Environment.Exit(0) }
             ]);
 
